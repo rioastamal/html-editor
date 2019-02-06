@@ -2,9 +2,18 @@
 
 This application is a simple HTML editor with syntax highlighting and instant preview capability. It has two main windows -- left is used for code editor and the right one is used for HTML preview. For syntax highlighting it uses CodeMirror library.
 
+HTML Editor support following features.
+
+- Open file from local disk
+- Save file to local disk
+- Syntax highlighting
+- Word Wrap
+- Instant preview window
+- Responsive design for mobile
+
 Demo are available at [https://rioastamal.net/html-editor/](https://rioastamal.net/html-editor/)
 
-![Demo HTML Editor](https://s3.amazonaws.com/rioastamal-assets/html-editor/html-editor-demo.mov.gif)
+![Demo HTML Editor](https://s3.amazonaws.com/rioastamal-assets/html-editor/html-editor-demo.gif)
 
 ## Run
 
