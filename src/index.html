@@ -295,7 +295,7 @@ function saveAsFile(filename, data)
     elem.click();
     document.body.removeChild(elem);
 
-    window.URL.removeObjectURL(blob);
+    window.URL.revokeObjectURL(blob);
 }
 
 cm = CodeMirror.fromTextArea(editor, {
