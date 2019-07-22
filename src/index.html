@@ -117,6 +117,7 @@ ul.menu-list li a {
 <script src="mode/javascript.js"></script>
 <script src="mode/css.js"></script>
 <script src="mode/htmlmixed.js"></script>
+<script src="mode/active-line.js"></script>
 <link rel="stylesheet" href="css/00-codemirror.css">
 <link rel="stylesheet" href="css/monokai.css">
 <!-- END CODEMIRROR -->
@@ -359,7 +360,8 @@ cm.on('change', function() {
 
 /**
  * Keyboard shortcut for Hide or show Editor and Preview window
- * Alt+Shift+E = Hide/Show
+ * CTRL+Shift+E = Hide/Show Editor
+ * CTRL+Shift+W = Hide/Show Preview
  */
 document.onkeyup = function(e) {
     e.preventDefault();
@@ -375,12 +377,12 @@ document.onkeyup = function(e) {
     }
 
     // E = 69
-    if (e.ctrlKey && e.altKey && theChar == 'E') {
+    if (e.ctrlKey && e.shiftKey && theChar == 'E') {
         document.getElementById('menu-show-editor').click();
     }
 
     // W = 87
-    if (e.ctrlKey && e.altKey && theChar == 'W') {
+    if (e.ctrlKey && e.shiftKey && theChar == 'W') {
         document.getElementById('menu-show-preview').click();
     }
 }
