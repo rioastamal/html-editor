@@ -141,10 +141,6 @@ ul.menu-list li a {
         float: left;
         padding-bottom: 0;
     }
-    .full-width {
-        width: 100%;
-        float: initial;
-    }
     .menu {
         width: 300px;
         border-right: 1px dotted #999;
@@ -153,6 +149,10 @@ ul.menu-list li a {
     .preview {
         width: 50%;
         float: left;
+    }
+    .full-width {
+        width: 100%;
+        float: initial;
     }
 }
 </style>
@@ -175,6 +175,7 @@ ul.menu-list li a {
         <li><a id="menu-open-file" href="#">Open File...</a></li>
         <li><a id="menu-save-file" href="#">Save As...</a></li>
         <li><a id="menu-word-wrap" href="#" data-word-wrap="no">Word Wrap</a></li>
+        <li><a id="menu-show-editor" href="#" data-show-editor="yes">Editor Window &#x2713</a></li>
         <li><a id="menu-show-preview" href="#" data-show-preview="yes">Preview Window &#x2713</a></li>
     </ul>
     <div class="menu-footer">
@@ -202,8 +203,8 @@ var editor = document.getElementById('editor');
 var preview = document.getElementById('preview');
 var menu = document.getElementById('menu');
 var fileOpenInput = document.getElementById('file-open-input');
-var previeWrapper = document.getElementsByClassName('preview')[0];
-var EditorWrapper = document.getElementsByClassName('editor')[0];
+var previewWrapper = document.getElementsByClassName('preview')[0];
+var editorWrapper = document.getElementsByClassName('editor')[0];
 var cm;
 
 function updatePreview(content)
@@ -222,7 +223,10 @@ document.getElementById('menu-open-file').onclick = function(e)
 
 document.getElementById('menu-save-file').onclick = function(e)
 {
-    saveAsFile('index.html', cm.getValue());
+    var fname = prompt('Enter file name', 'index.html');
+    if (fname) {
+        saveAsFile(fname, cm.getValue());
+    }
 }
 
 document.getElementById('menu-word-wrap').onclick = function(e)
@@ -245,20 +249,64 @@ document.getElementById('menu-word-wrap').onclick = function(e)
 document.getElementById('menu-show-preview').onclick = function(e)
 {
     var currentPreviewStatus = this.getAttribute('data-show-preview');
+    var currentEditorStatus = document.getElementById('menu-show-editor').getAttribute('data-show-editor');
 
     if (currentPreviewStatus == 'no') {
-        previeWrapper.className = 'preview';
-        EditorWrapper.className = 'editor';
         this.setAttribute('data-show-preview', 'yes');
         this.innerHTML = 'Preview Window &#x2713';
+
+        if (currentEditorStatus == 'yes') {
+            // Normal 50:50 width
+            previewWrapper.className = 'preview';
+            editorWrapper.className = 'editor';
+
+            return false;
+        }
+
+        // Preview full width since editor window is hidden
+        previewWrapper.className = 'preview full-width';
 
         return false;
     }
 
-    previeWrapper.className = 'preview hide';
-    EditorWrapper.className = 'editor full-width';
+    previewWrapper.className = 'preview hide';
+    if (currentEditorStatus == 'yes') {
+        editorWrapper.className = 'editor full-width';
+    }
+
     this.setAttribute('data-show-preview', 'no');
     this.innerHTML = 'Preview Window';
+    return false;
+}
+
+document.getElementById('menu-show-editor').onclick = function(e)
+{
+    var currentEditorStatus = this.getAttribute('data-show-editor');
+    var currentPreviewStatus = document.getElementById('menu-show-preview').getAttribute('data-show-preview');
+
+    if (currentEditorStatus == 'no') {
+        this.setAttribute('data-show-editor', 'yes');
+        this.innerHTML = 'Editor Window &#x2713';
+
+        if (currentPreviewStatus == 'yes') {
+            // Normal 50:50 width
+            previewWrapper.className = 'preview';
+            editorWrapper.className = 'editor';
+
+            return false;
+        }
+        // Editor full width since preview window is hidden
+        editorWrapper.className = 'editor full-width';
+
+        return false;
+    }
+
+    editorWrapper.className = 'editor hide';
+    if (currentPreviewStatus === 'yes') {
+        previewWrapper.className = 'preview full-width';
+    }
+    this.setAttribute('data-show-editor', 'no');
+    this.innerHTML = 'Editor Window';
     return false;
 }
 
@@ -300,13 +348,42 @@ function saveAsFile(filename, data)
 
 cm = CodeMirror.fromTextArea(editor, {
     lineNumbers: true,
+    styleActiveLine: true,
     mode: 'text/html',
-    theme: 'monokai'
+    theme: 'monokai',
 });
 
 cm.on('change', function() {
     updatePreview(cm.getValue());
 });
+
+/**
+ * Keyboard shortcut for Hide or show Editor and Preview window
+ * Alt+Shift+E = Hide/Show
+ */
+document.onkeyup = function(e) {
+    e.preventDefault();
+
+    // e.keyCode is deprecated from web standard and replaced with e.key
+    var theChar = null;
+    if (e.key !== undefined) {
+        theChar = e.key.toUpperCase();
+    }
+    if (!theChar) {
+        // Fallback to old standard
+        theChar = String.fromCharCode(e.keyCode).toUpperCase();
+    }
+
+    // E = 69
+    if (e.ctrlKey && e.altKey && theChar == 'E') {
+        document.getElementById('menu-show-editor').click();
+    }
+
+    // W = 87
+    if (e.ctrlKey && e.altKey && theChar == 'W') {
+        document.getElementById('menu-show-preview').click();
+    }
+}
 </script>
 </body>
 </html>
