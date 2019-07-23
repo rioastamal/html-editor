@@ -1,8 +1,8 @@
 ## About
 
-A small and lighting fast in-browser HTML editor with instant preview for code you type. It is a great tool for HTML prototyping since you do not have to save the file everytime you want to make the changes. On top of that it's only single HTML file and works offline too.
+A small and lighting fast in-browser HTML editor with syntax highlighting and instant preview for code you type. It is a great tool for HTML prototyping since you do not have to save the file everytime you want to make the changes. On top of that it's only single HTML file and works offline too.
 
-It has two main windows -- left is used for code editor and the right one is used for HTML preview. For syntax highlighting it uses an awesome CodeMirror library.
+You can think this app as a diet version of CodePen.io or JsFiddle but you can run it locally. It has two main windows -- left is used for code editor and the right one is used for HTML preview. For syntax highlighting it uses an awesome CodeMirror library.
 
 HTML Editor support following features.
 
@@ -36,13 +36,17 @@ You can try to open file `build/index.html` using web browser.
 
 ## Changelog
 
-### v1.1
+### v1.2
 
 * Hide or show for code editor window
 * Prompt a file name on SaveAs feature
 * Confirm to user before closing or reloading the page
 * Add meta tags to the page
 * Add keyboard shortcuts
+
+### v1.1
+
+* Bug fixes: Undefined function name removeObjectURL() on saveAsFile() function.
 
 ### v1.0
 
