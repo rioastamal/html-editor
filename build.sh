@@ -20,7 +20,7 @@ sed -i "" "s/{{APP_VERSION}}/${APP_VERSION}/g" $BUILD_FILE
 
 # Update meta tag
 [ -z "$META_DESCRIPTION" ] && {
-    META_DESCRIPTION="A small and lighting fast in-browser HTML editor with real-time preview. A great tool for prototyping an HTML code right inside your browser."
+    META_DESCRIPTION="A small and lighting fast in-browser HTML editor with real-time preview. A great tool for prototyping HTML code right inside your browser."
 }
 [ -z "$META_KEYWORDS" ] && {
     META_KEYWORDS="html editor, javascript editor, html, javascript, editor"
