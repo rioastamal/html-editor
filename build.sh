@@ -12,8 +12,11 @@
 JS_CONTENTS=$( cat src/lib/codemirror.js )
 CSS_CONTENT=
 BUILD_FILE=build/index.html
+APP_VERSION=1.1
 
 cp src/index.html $BUILD_FILE
+
+sed -i "" "s/{{APP_VERSION}}/${APP_VERSION}/g" $BUILD_FILE
 
 # Update meta tag
 [ -z "$META_DESCRIPTION" ] && {
