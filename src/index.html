@@ -4,6 +4,13 @@
 <title>HTML Editor</title>
 <meta name="google" content="notranslate">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="{{META_DESCRIPTION}}">
+<meta name="keywords" content="{{META_KEYWORDS}}">
+<meta property="og:title" content="{{OG_DESCRIPTION}}">
+<meta property="og:description" content="{{OG_DESCRIPTION}}">
+<meta property="og:url" content="{{OG_URL}}">
+<meta property="og:image" content="{{OG_IMAGE}}">
+<meta charset="utf-8">
 <style>
 html {
     height: 100%;
@@ -78,13 +85,20 @@ h2.title {
 }
 ul.menu-list {
     list-style: none;
-    padding-left: 1.5em;
+    padding-left: 1.4em;
 }
-ul.menu-list li a {
-    display: block;
+ul.menu-list li {
     padding: 0.2em 0.5em 0.4em 0.5em;
     border-bottom: 1px solid #333;
     margin-bottom: 0.5em;
+}
+ul.menu-list li a {
+    display: block;
+}
+ul.menu-list li span {
+    display: block;
+    font-size: 0.6em;
+    padding-top: 0.5em;
 }
 .menu:target {
     display: block;
@@ -176,8 +190,15 @@ ul.menu-list li a {
         <li><a id="menu-open-file" href="#">Open File...</a></li>
         <li><a id="menu-save-file" href="#">Save As...</a></li>
         <li><a id="menu-word-wrap" href="#" data-word-wrap="no">Word Wrap</a></li>
-        <li><a id="menu-show-editor" href="#" data-show-editor="yes">Editor Window &#x2713</a></li>
-        <li><a id="menu-show-preview" href="#" data-show-preview="yes">Preview Window &#x2713</a></li>
+        <li>
+            <a id="menu-show-editor" href="#" data-show-editor="yes">Editor Window &#x2713</a>
+            <span>Ctrl+Shift+E</span>
+        </li>
+        <li>
+            <a id="menu-show-preview" href="#" data-show-preview="yes">Preview Window &#x2713</a>
+            <span>Ctrl+Shift+W</span>
+        </li>
+        <li><a id="menu-contribute" href="https://github.com/rioastamal/html-editor/" target="_blank">Contribute</a></li>
     </ul>
     <div class="menu-footer">
         <span>HTML Editor v1.0</span>
@@ -187,7 +208,7 @@ ul.menu-list li a {
 
 <!-- EDITOR WINDOW -->
 <div class="editor">
-    <h2 class="title text-center border-bottom">Editor</h2>
+    <h2 class="title text-center border-bottom">HTML Editor</h2>
     <textarea id="editor"></textarea>
 </div>
 
@@ -347,23 +368,13 @@ function saveAsFile(filename, data)
     window.URL.revokeObjectURL(blob);
 }
 
-cm = CodeMirror.fromTextArea(editor, {
-    lineNumbers: true,
-    styleActiveLine: true,
-    mode: 'text/html',
-    theme: 'monokai',
-});
-
-cm.on('change', function() {
-    updatePreview(cm.getValue());
-});
-
 /**
  * Keyboard shortcut for Hide or show Editor and Preview window
  * CTRL+Shift+E = Hide/Show Editor
  * CTRL+Shift+W = Hide/Show Preview
  */
-document.onkeyup = function(e) {
+document.onkeyup = function(e)
+{
     e.preventDefault();
 
     // e.keyCode is deprecated from web standard and replaced with e.key
@@ -386,6 +397,34 @@ document.onkeyup = function(e) {
         document.getElementById('menu-show-preview').click();
     }
 }
+
+window.onbeforeunload = function(e)
+{
+  if (e) {
+    // Cancel the event
+    e.preventDefault();
+    // Chrome requires returnValue to be set
+    e.returnValue = '';
+  }
+
+  return 'Are you sure want to exit?';
+};
+
+window.addEventListener('DOMContentLoaded', function(e)
+{
+  cm = CodeMirror.fromTextArea(editor, {
+      lineNumbers: true,
+      styleActiveLine: true,
+      mode: 'text/html',
+      theme: 'monokai',
+  });
+
+  cm.on('change', function() {
+      updatePreview(cm.getValue());
+  });
+
+  updatePreview(cm.getValue());
+});
 </script>
 </body>
 </html>

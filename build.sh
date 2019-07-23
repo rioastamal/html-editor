@@ -15,6 +15,34 @@ BUILD_FILE=build/index.html
 
 cp src/index.html $BUILD_FILE
 
+# Update meta tag
+[ -z "$META_DESCRIPTION" ] && {
+    META_DESCRIPTION="A small and lighting fast in-browser HTML editor with real-time preview. A great tool for prototyping an HTML code right inside your browser."
+}
+[ -z "$META_KEYWORDS" ] && {
+    META_KEYWORDS="html editor, javascript editor, html, javascript, editor"
+}
+[ -z "$OG_TITLE" ] && {
+    OG_TITLE="Small and Fast in-browser HTML Editor"
+}
+[ -z "$OG_DESCRIPTION" ] && {
+    OG_DESCRIPTION=$META_DESCRIPTION
+}
+[ -z "$OG_URL" ] && {
+    OG_URL="https://rioastamal.net/html-editor/"
+}
+[ -z "$OG_IMAGE" ] && {
+    OG_IMAGE="https://rioastamal-assets.s3.amazonaws.com/html-editor/html-editor-og-url.png"
+}
+
+for keyword in META_DESCRIPTION META_KEYWORDS OG_TITLE OG_DESCRIPTION OG_URL OG_IMAGE
+do
+    TMP_VALUE=$( eval echo \$${keyword} )
+    sed -i "" "s@{{$keyword}}@$TMP_VALUE@g" $BUILD_FILE
+done
+
+# Replace javascript file inclusion with inline javascript,
+# so the ouput is only single HTML file
 CODEMIRROR_LINE_BEGIN=$( sed -n '/!-- BEGIN CODEMIRROR -->/=' $BUILD_FILE )
 CODEMIRROR_LINE_END=$( sed -n '/!-- END CODEMIRROR -->/=' $BUILD_FILE )
 CONTENTS_BEFORE_CODEMIRROR=$( head -n $CODEMIRROR_LINE_BEGIN $BUILD_FILE )
