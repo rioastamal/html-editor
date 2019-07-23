@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>HTML Editor</title>
+<title>{{OG_TITLE}}</title>
 <meta name="google" content="notranslate">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="{{META_DESCRIPTION}}">
 <meta name="keywords" content="{{META_KEYWORDS}}">
-<meta property="og:title" content="{{OG_DESCRIPTION}}">
+<meta property="og:title" content="{{OG_TITLE}}">
 <meta property="og:description" content="{{OG_DESCRIPTION}}">
 <meta property="og:url" content="{{OG_URL}}">
 <meta property="og:image" content="{{OG_IMAGE}}">
@@ -187,9 +187,18 @@ ul.menu-list li span {
 <div id="menu" class="menu">
     <div class="menu-close"><a title="Tutup menu" href="#">X</a></div>
     <ul class="menu-list">
-        <li><a id="menu-open-file" href="#">Open File...</a></li>
-        <li><a id="menu-save-file" href="#">Save As...</a></li>
-        <li><a id="menu-word-wrap" href="#" data-word-wrap="no">Word Wrap</a></li>
+        <li>
+            <a id="menu-open-file" href="#">Open File...</a>
+            <span>Ctrl+Shift+O</span>
+        </li>
+        <li>
+            <a id="menu-save-file" href="#">Save As...</a>
+            <span>Ctrl+Shift+S</span>
+        </li>
+        <li>
+            <a id="menu-word-wrap" href="#" data-word-wrap="no">Word Wrap</a>
+            <span>Ctrl+Shift+B</span>
+        </li>
         <li>
             <a id="menu-show-editor" href="#" data-show-editor="yes">Editor Window &#x2713</a>
             <span>Ctrl+Shift+E</span>
@@ -245,7 +254,7 @@ document.getElementById('menu-open-file').onclick = function(e)
 
 document.getElementById('menu-save-file').onclick = function(e)
 {
-    var fname = prompt('Enter file name', 'index.html');
+    var fname = prompt('Save As: Enter a file name', 'index.html');
     if (fname) {
         saveAsFile(fname, cm.getValue());
     }
@@ -370,6 +379,9 @@ function saveAsFile(filename, data)
 
 /**
  * Keyboard shortcut for Hide or show Editor and Preview window
+ * CTRL+Shift+O = Open File
+ * CTRL+Shift+S = Save File
+ * CTRL+Shift+B = Word wrap
  * CTRL+Shift+E = Hide/Show Editor
  * CTRL+Shift+W = Hide/Show Preview
  */
@@ -387,12 +399,22 @@ document.onkeyup = function(e)
         theChar = String.fromCharCode(e.keyCode).toUpperCase();
     }
 
-    // E = 69
+    if (e.ctrlKey && e.shiftKey && theChar == 'O') {
+        document.getElementById('menu-open-file').click();
+    }
+
+    if (e.ctrlKey && e.shiftKey && theChar == 'S') {
+        document.getElementById('menu-save-file').click();
+    }
+
+    if (e.ctrlKey && e.shiftKey && theChar == 'B') {
+        document.getElementById('menu-word-wrap').click();
+    }
+
     if (e.ctrlKey && e.shiftKey && theChar == 'E') {
         document.getElementById('menu-show-editor').click();
     }
 
-    // W = 87
     if (e.ctrlKey && e.shiftKey && theChar == 'W') {
         document.getElementById('menu-show-preview').click();
     }
