@@ -1,6 +1,8 @@
 ## About
 
-This application is a simple HTML editor with syntax highlighting and instant preview capability. It has two main windows -- left is used for code editor and the right one is used for HTML preview. For syntax highlighting it uses CodeMirror library.
+A small and lighting fast in-browser HTML editor with instant preview for code you type. It is a great tool for HTML prototyping since you do not have to save the file everytime you want to make the changes. On top of that it's only single HTML file and works offline too.
+
+It has two main windows -- left is used for code editor and the right one is used for HTML preview. For syntax highlighting it uses an awesome CodeMirror library.
 
 HTML Editor support following features.
 
@@ -9,7 +11,9 @@ HTML Editor support following features.
 - Syntax highlighting
 - Word Wrap
 - Instant preview window
+- Keyboard shortcuts
 - Responsive design for mobile
+- Works offline
 
 Demo are available at [https://rioastamal.net/html-editor/](https://rioastamal.net/html-editor/)
 
@@ -29,6 +33,20 @@ Build file build/index.html complete.
 ```
 
 You can try to open file `build/index.html` using web browser.
+
+## Changelog
+
+### v1.1
+
+* Hide or show for code editor window
+* Prompt a file name on SaveAs feature
+* Confirm to user before closing or reloading the page
+* Add meta tags to the page
+* Add keyboard shortcuts
+
+### v1.0
+
+* Initial release of HTML Editor
 
 ## Author
 
