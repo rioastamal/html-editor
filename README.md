@@ -36,6 +36,10 @@ You can try to open file `build/index.html` using web browser.
 
 ## Changelog
 
+### v1.3
+
+* Add option to manually trigger preview
+
 ### v1.2
 
 * Hide or show for code editor window
