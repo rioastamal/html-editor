@@ -207,6 +207,11 @@ ul.menu-list li span {
             <a id="menu-show-preview" href="#" data-show-preview="yes">Preview Window &#x2713</a>
             <span>Ctrl+Shift+W</span>
         </li>
+        <li>
+            <a id="menu-manual-preview" href="#" data-manual-preview="no">Manual Preview</a>
+            <span>Ctrl+Shift+P</span>
+            <span>(CTRL+Shift+U to Update Preview)</span>
+        </li>
         <li><a id="menu-contribute" href="https://github.com/rioastamal/html-editor/" target="_blank">Contribute</a></li>
     </ul>
     <div class="menu-footer">
@@ -236,6 +241,7 @@ var menu = document.getElementById('menu');
 var fileOpenInput = document.getElementById('file-open-input');
 var previewWrapper = document.getElementsByClassName('preview')[0];
 var editorWrapper = document.getElementsByClassName('editor')[0];
+var onCmUpdate = null;
 var cm;
 
 function updatePreview(content)
@@ -341,6 +347,27 @@ document.getElementById('menu-show-editor').onclick = function(e)
     return false;
 }
 
+document.getElementById('menu-manual-preview').onclick = function(e)
+{
+    var currentManualPreviewStatus = this.getAttribute('data-manual-preview');
+
+    if (currentManualPreviewStatus == 'no') {
+        this.setAttribute('data-manual-preview', 'yes');
+        this.innerHTML = 'Manual Preview &#x2713';
+
+        cm.off('change', onCmUpdate);
+
+        return false;
+    }
+
+    this.setAttribute('data-manual-preview', 'no');
+    this.innerHTML = 'Manual Preview';
+
+    cm.on('change', onCmUpdate);
+
+    return false;
+}
+
 fileOpenInput.onchange = function(e)
 {
     var file = fileOpenInput.files[0];
@@ -418,6 +445,14 @@ document.onkeyup = function(e)
     if (e.ctrlKey && e.shiftKey && theChar == 'W') {
         document.getElementById('menu-show-preview').click();
     }
+
+    if (e.ctrlKey && e.shiftKey && theChar == 'P') {
+        document.getElementById('menu-manual-preview').click();
+    }
+
+    if (e.ctrlKey && e.shiftKey && theChar == 'U') {
+        updatePreview(cm.getValue());
+    }
 }
 
 window.onbeforeunload = function(e)
@@ -441,9 +476,11 @@ window.addEventListener('DOMContentLoaded', function(e)
       theme: 'monokai',
   });
 
-  cm.on('change', function() {
-      updatePreview(cm.getValue());
-  });
+  onCmUpdate = function() {
+    updatePreview(cm.getValue());
+  };
+
+  cm.on('change', onCmUpdate);
 
   updatePreview(cm.getValue());
 });
