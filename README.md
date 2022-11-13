@@ -36,6 +36,10 @@ You can try to open file `build/index.html` using web browser.
 
 ## Changelog
 
+### v1.4
+
+* New feature: Auto populate contents from `?code=` query string parameter
+
 ### v1.3
 
 * Add option to manually trigger preview
