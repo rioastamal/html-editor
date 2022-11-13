@@ -473,7 +473,7 @@ window.addEventListener('DOMContentLoaded', function(e)
       lineNumbers: true,
       styleActiveLine: true,
       mode: 'text/html',
-      theme: 'monokai',
+      theme: 'monokai'
   });
 
   onCmUpdate = function() {
@@ -481,6 +481,12 @@ window.addEventListener('DOMContentLoaded', function(e)
   };
 
   cm.on('change', onCmUpdate);
+
+  var params = new URLSearchParams(document.location.search);
+  var code = params.get('code');
+  if (code) {
+    cm.setValue(decodeURIComponent(code));
+  }
 
   updatePreview(cm.getValue());
 });
