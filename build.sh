@@ -12,7 +12,7 @@
 JS_CONTENTS=$( cat src/lib/codemirror.js )
 CSS_CONTENT=
 BUILD_FILE=build/index.html
-APP_VERSION=1.4
+APP_VERSION=1.5
 
 cp src/index.html $BUILD_FILE
 
