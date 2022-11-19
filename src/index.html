@@ -485,7 +485,7 @@ window.addEventListener('DOMContentLoaded', function(e)
   var params = new URLSearchParams(document.location.search);
   var code = params.get('code');
   if (code) {
-    cm.setValue(decodeURIComponent(code));
+    cm.setValue(code);
   }
 
   updatePreview(cm.getValue());
